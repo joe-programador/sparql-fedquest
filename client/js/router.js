@@ -134,6 +134,7 @@ new IndexView().render();
     new errorpagView().render(); 
   } , favsearch : function (){ 
     $('div.navbar .collapse li a#options').hide();
-    new FavSearchView().render();
+   //  FavSearchView().subscribe('favresources').wait();
+   new FavSearchView().render();
   }
 });

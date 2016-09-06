@@ -39,6 +39,7 @@ if (Meteor.isClient) {
         Meteor.subscribe("profile");
         Meteor.subscribe("searchs");
         Meteor.subscribe("favresources");
+     
         // Meteor.subscribe("cache");
 
     });
@@ -1047,9 +1048,11 @@ if (Meteor.isClient) {
     // Muestra consultas - JS
     Template.samples.helpers({
         queriesAvailable: function () {
+            
             return Queries.find().fetch();
         },
         settings: function () {
+           
             return {
                 //   rowsPerPage: 10,
                 rowsPerPage: 10,
@@ -1075,9 +1078,12 @@ if (Meteor.isClient) {
       Template.favsearch.helpers({
 
         histsearch: function () {
-            return Searchs.find({ idUser: Meteor.userId()}).fetch();
-        },
+             var s = Searchs.find({ idUser: Meteor.userId()}).fetch();
+             waitingDialog.hide ();
+             return s;
+        },  
         settingshist: function () {
+            
             return {
                 //   rowsPerPage: 10,
                 rowsPerPage: 5,

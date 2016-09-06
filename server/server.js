@@ -78,7 +78,7 @@ Hooks.onCreateUser = function (userId) {
  //alert ("Login");
  var usr = Meteor.users.findOne({'_id':userId});
 
-  Profile.insert({idProfile: userId , nameUser: "", direction: "" , levelAcademic: "0", areasInterest: "", language: "es", password: "", secMail:  usr.emails[0].address , accessLevel: "0"});
+  Profile.insert({idProfile: userId , nameUser: "", direction: "" , levelAcademic: "0", areasInterest: [], language: "es", password: "", secMail:  usr.emails[0].address , accessLevel: "0"});
  console.log ("Usuario Creado");
  console.log (usr.emails[0].address);
 
@@ -1691,6 +1691,17 @@ String.prototype.keyword = function () {
              }  , Deletefav : function (idfav) {
                  Favresources.remove ({ 'idUser': this.userId , '_id' : idfav });
                  return "Eliminado";
+
+             } ,  saveinterest: function  (URI) {
+                 var interest = InterestResources.findOne({ 'idUser': this.userId , 'URI' : URI });
+                   
+                   if (  _.isUndefined(interest)){
+                 
+                 InterestResources.insert({idUser: this.userId , 'URI' : URI });
+                 return "almacenado";
+                 }  
+
+                 return "Ya estaba almacenado";
 
              }
 

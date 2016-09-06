@@ -192,6 +192,9 @@ this.SearchView = Backbone.View.extend({
     },
     // setEvents: function (divNode) {
     setEvents: function (divNode) {
+       
+
+        
         var FromList = [];
         Session.set('DespSug', true);
         $("#sug").collapse('show');
@@ -494,9 +497,12 @@ cache = {};
             }
             console.log ("Hasta aqui");
             console.log (sources);
+
+            if (!_.isNull(Meteor.userId())) {
             var rest = Meteor.call('savesearch' , originTextSearch ,  sources , EntitySearch ,function (error, result) { 
                 console.log (result); 
             });
+            }
 
 
             Query += '} order by DESC(?Score)\n  ' + ResultLimit;
@@ -606,6 +612,7 @@ linkg = function (e) {
     var v2 = encodeURIComponent(en.endpoint);
     var v3 = encodeURIComponent(en.graphURI);
     window.open('/graph/' + v1 + '/' + v2 + '/' + v3);
+    interestitem (obj.attributes['data-uri'].value);
 };
 
 function Query(endpoint, graph, query) {
@@ -659,6 +666,7 @@ linkg2 = function (e) {
         }
     }
     );
+    interestitem (v1);
 };
 
 ValidateSuggestionQuery = function (query) {
@@ -860,11 +868,14 @@ qrmodalshow = function (e, base, type) {
 
     //  $("#qrarea2").qrcode ( {width: 125 ,height: 125,text: "http://localhost" });
     $("#myqrmodal").modal();
+
+    interestitem (e);
 }
 
 download = function (URI) {
     $("#mydwmodal").modal();
     $("#mydwmodal").attr("URI", URI);
+    interestitem (URI);
 
 
 }
@@ -940,11 +951,23 @@ hide = function (e) {
 
     favaction = function ( uri , label) 
    {
+   if (!_.isNull(Meteor.userId()) ){
    Meteor.call('savefavresource', uri , label , function (error, result) { 
     console.log (result);
+      });
+   } else {
+
+    alert ("Por favor, ingrese un usuario para utilizar esta característica");
+   }
    // alert (result);
-   });
+
        
+
+   }
+
+   rdflink = function (URI){
+   window.open(URI);
+     interestitem (URI);
 
    }
   
@@ -974,6 +997,18 @@ function fuente(uri, base) {
     }
     );
 };
+
+
+    function interestitem (URI) {
+    
+    // alert (URI);
+    if (!_.isNull(Meteor.userId())) {
+     Meteor.call('saveinterest', URI  , function (error, result) { 
+    console.log (result);
+   // alert (result);
+   });
+    }
+    }
 
     desplegar = function (e) {
        // $("#sug").collapse('toggle');
