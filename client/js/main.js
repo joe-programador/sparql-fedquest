@@ -38,7 +38,7 @@ if (Meteor.isClient) {
         Meteor.subscribe("prefixes");
         Meteor.subscribe("profile");
         Meteor.subscribe("searchs");
-        Meteor.subscribe("favresources");
+     //   Meteor.subscribe("favresources");
      
         // Meteor.subscribe("cache");
 
@@ -75,7 +75,7 @@ if (Meteor.isClient) {
         }
         return answer;
     });
-
+     
     var Qmode = 0;
     var pa = -1;
     this.App.SearchRun = (function (num, qm) {
@@ -109,8 +109,11 @@ if (Meteor.isClient) {
             //alert('f');
             waitingDialog.hide();
         });
+        //Ver render template
+        
         return "";
     });
+    
     Template.stats.helpers({
         g1: function () {
             var str = {};
@@ -1055,7 +1058,7 @@ if (Meteor.isClient) {
            
             return {
                 //   rowsPerPage: 10,
-                rowsPerPage: 10,
+                rowsPerPage: 7,
                 showFilter: true,
                 //showNavigation: 'auto',
                 //showColumnToggles: true,
@@ -1078,8 +1081,13 @@ if (Meteor.isClient) {
       Template.favsearch.helpers({
 
         histsearch: function () {
-             var s = Searchs.find({ idUser: Meteor.userId()}).fetch();
+            // Meteor.subscribe("favresources");
+            Meteor.subscribe('favresources', function onReady() {
+            //Session.set('tasksLoaded', true);
              waitingDialog.hide ();
+             });
+             var s = Searchs.find({ idUser: Meteor.userId()}).fetch();
+            // waitingDialog.hide ();
              return s;
         },  
         settingshist: function () {
@@ -1999,6 +2007,18 @@ if (Meteor.isClient) {
     function strStartsWith(str, prefix) {
         return str.indexOf(prefix) === 0;
     }
+
+    function logRenders () {
+    _.each(Template, function (template, name) {
+      var oldRender = template.rendered;
+      var counter = 0;
+ 
+      template.rendered = function () {
+        console.log(name, "render count: ", ++counter);
+        oldRender && oldRender.apply(this, arguments);
+      };
+    });
+  }
 
       function language (){
 

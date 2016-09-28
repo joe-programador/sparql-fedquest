@@ -31,7 +31,7 @@ this.FavSearchView = Backbone.View.extend({
               waitingDialog.hide ();
            });
 
-   
+   //logRenders ();
 
 } 
 
