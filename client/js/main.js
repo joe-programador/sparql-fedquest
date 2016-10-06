@@ -38,7 +38,7 @@ if (Meteor.isClient) {
         Meteor.subscribe("prefixes");
         Meteor.subscribe("profile");
         Meteor.subscribe("searchs");
-     //   Meteor.subscribe("favresources");
+        Meteor.subscribe("favresources");
      
         // Meteor.subscribe("cache");
 
